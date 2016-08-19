@@ -223,8 +223,6 @@ public class InsertarProveedores {
             beanDAO.getConexion();
         } catch (SQLException e) {
             System.out.println("Error en la conexión con la base de datos:" + e);
-        } finally {
-            insertarProveedores();
-        }
+        } 
     }
 }
