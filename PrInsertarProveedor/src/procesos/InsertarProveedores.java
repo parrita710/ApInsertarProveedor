@@ -21,28 +21,30 @@ public class InsertarProveedores {
     private OpcionesMenu opcionesMenuPrincipal;
     private OpcionesMenu opcionesMostrarProveedores;
     private OpcionesMenu opcionesModificarProveedor;
+    private OpcionesMenu opcionesMenuLogin;
     private RellenaMenu rellenaMenu;
     private Menu menuPrincipal;
     private Menu rellenaOpcionesMostrarProveedores;
     private Menu rellenaOpcionesModificarProveedor;
+    private Menu rellenaOpcionesLogin;
     private int opcion;
 
     public InsertarProveedores() {
-        beanDAO =
-            new BeanDAO("com.mysql.jdbc.Driver", "jdbc:mysql://domain.com:port/", "BD_name", "account",
-                        "password");
         pedirDatos = new PedirDatos();
         utilidadesES = new UtilidadesES(new BufferedReader(new InputStreamReader(System.in)), System.out);
         opcionesMenuPrincipal = new OpcionesMenu();
         opcionesMostrarProveedores = new OpcionesMenu();
+        opcionesMenuLogin = new OpcionesMenu();
+        opcionesModificarProveedor = new OpcionesMenu();
         rellenaMenu = new RellenaMenu();
         rellenaMenu.rellenaOpcionesPrincipal(opcionesMenuPrincipal).toString();
         rellenaMenu.rellenaOpcionesMostrarProveedores(opcionesMostrarProveedores).toString();
+        rellenaMenu.rellenaOpcionesLogin(opcionesMenuLogin).toString();
+        rellenaMenu.rellenaOpcionesModificarProveedores(opcionesModificarProveedor).toString();
         menuPrincipal = new Menu(utilidadesES);
         rellenaOpcionesMostrarProveedores = new Menu(utilidadesES);
-        opcionesModificarProveedor = new OpcionesMenu();
+        rellenaOpcionesLogin = new Menu(utilidadesES);
         rellenaOpcionesModificarProveedor = new Menu(utilidadesES);
-        rellenaMenu.rellenaOpcionesModificarProveedores(opcionesModificarProveedor).toString();
     }
 
     public void insertarProveedores() {
@@ -64,18 +66,38 @@ public class InsertarProveedores {
     private void gestionOpcionPrincipal() {
         switch (opcion) {
         case 1:
-            insertarProveedor();
+            login();
             break;
         case 2:
-            borrarProveedor();
+            insertarProveedor();
             break;
         case 3:
-            modificarProveedor();
+            borrarProveedor();
             break;
         case 4:
+            modificarProveedor();
+            break;
+        case 5:
             mostrarProveedor();
             break;
         }
+    }
+
+
+    private void login() {
+        boolean terminar = false;
+
+        do {
+            opcion = rellenaOpcionesLogin.presentaMenu(opcionesMenuLogin);
+            if (opcion == 0) {
+                terminar = true;
+            }
+            if (opcion > 0 && opcion <= (opcionesMenuLogin.size())) {
+                gestionOpcionesMenuLogin();
+            }
+
+        } while (!terminar);
+
     }
 
     private void insertarProveedor() {
@@ -150,7 +172,7 @@ public class InsertarProveedores {
             beanDAO.buscarProveedor(pedirDatos.buscarProveedor());
         } catch (SQLException e) {
             utilidadesES.mostrarln("Error al buscar los proveedores: " + e);
-            
+
         }
     }
 
@@ -162,7 +184,7 @@ public class InsertarProveedores {
         case 2:
             ModificarTelefono();
             break;
-        } 
+        }
     }
 
     private void modificarNombre() {
@@ -178,6 +200,31 @@ public class InsertarProveedores {
             beanDAO.modificarNombreProveedor(pedirDatos.pedirTelefonoProveedor(), pedirDatos.pedirNuevoTelefono());
         } catch (SQLException e) {
             utilidadesES.mostrarln("Error al buscar los proveedores: " + e);
+        }
+    }
+
+    private void gestionOpcionesMenuLogin() {
+        switch (opcion) {
+        case 1:
+            pedirDatosBD();
+            break;
+        case 2:
+            probarConexion();
+        }
+    }
+
+    private void pedirDatosBD() {
+        beanDAO = new BeanDAO("com.mysql.jdbc.Driver", pedirDatos.pedirDominio(), 
+                              pedirDatos.pedirNombreBD(), pedirDatos.pedirUsuario(), pedirDatos.pedirPass());
+    }
+
+    private void probarConexion() {
+        try {
+            beanDAO.getConexion();
+        } catch (SQLException e) {
+            System.out.println("Error en la conexión con la base de datos:" + e);
+        } finally {
+            insertarProveedores();
         }
     }
 }

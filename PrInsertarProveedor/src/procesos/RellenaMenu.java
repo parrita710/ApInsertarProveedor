@@ -4,13 +4,23 @@ import menu.OpcionesMenu;
 
 public class RellenaMenu {
 
+
     public OpcionesMenu rellenaOpcionesPrincipal(OpcionesMenu opcionesMenu) {
 
         opcionesMenu.add("Salir");
-        opcionesMenu.add("A�adir Proveedor");
+        opcionesMenu.add("Login");
+        opcionesMenu.add("Añadir Proveedor");
         opcionesMenu.add("Borrar Proveedor");
         opcionesMenu.add("Modificar Proveedor");
         opcionesMenu.add("Mostrar Proveedores");
+        return opcionesMenu;
+    }
+    
+    public OpcionesMenu rellenaOpcionesLogin(OpcionesMenu opcionesMenu){
+        
+        opcionesMenu.add("Salir");
+        opcionesMenu.add("Introducir datos de la conexión");
+        opcionesMenu.add("Probar Conexión");
         return opcionesMenu;
     }
 
