@@ -79,6 +79,22 @@ public class BeanDAO {
             }
 
     }
+    
+    /**
+     * Metodo encargado de abrir la conexion
+     * 
+     */
+    public void CreaConexion(String dominio, String puerto, String nombreBD, String cuenta, String pass) {
+        if (conexion == null)
+            try {
+                conexion =
+                    DriverManager.getConnection("jdbc:mysql://" + dominio + ":" + puerto + "/" +
+                                                nombreBD, cuenta, pass);
+            } catch (SQLException e) {
+                utilidadesES.mostrarln("Error con la conexión a la base de datos: " + e);
+            }
+
+    }
 
     /**
      *Metodo getter que devuelve la conexion

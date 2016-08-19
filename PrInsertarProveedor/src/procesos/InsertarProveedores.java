@@ -48,12 +48,6 @@ public class InsertarProveedores {
     public void insertarProveedores() {
         boolean terminar = false;
 
-        try {
-            beanDAO.getConexion();
-        } catch (SQLException e) {
-            utilidadesES.mostrarln("Error en la conexi�n con la base de datos: " + e);
-        }
-
         do {
             opcion = menuPrincipal.presentaMenu(opcionesMenuPrincipal);
             if (opcion == 0) {
