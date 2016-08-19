@@ -75,7 +75,7 @@ public class BeanDAO {
                     DriverManager.getConnection("jdbc:mysql://domanain.com:port/" + "BD_Name", "account",
                                                 "password");
             } catch (SQLException e) {
-                utilidadesES.mostrarln("Error con la conexi�n a la base de datos: " + e);
+                utilidadesES.mostrarln("Error con la conexión a la base de datos: " + e);
             }
 
     }
